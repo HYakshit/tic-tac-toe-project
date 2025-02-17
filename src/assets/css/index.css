@@ -28,7 +28,10 @@ body {
   background-size: 100% 100%, 30% 30%, 100% 100%;
   min-height: 110rem;
 }
-
+.content{
+  height: 100%;
+  width: 100%;
+}
 header {
   text-align: center;
 }

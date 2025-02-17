@@ -1,0 +1,13 @@
+@media(max-width:500px){
+    #game-board button{
+        width: 4rem;
+        height: 4rem;
+        padding: 0.5rem;
+    }
+    #game-board ol {
+        gap: 1.5rem;
+    }
+    #game-container{
+        margin: 1rem;
+    }
+}
