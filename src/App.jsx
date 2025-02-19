@@ -1,11 +1,44 @@
 import Player from "./components/player.jsx";
 import GameBoard from "./components/GameBoard.jsx";
 import Log from "./components/Log.jsx";
+import GameOver from "./components/GameOver.jsx";
+import { WINNING_COMBINATIONS } from "./winning-combinations.js";
 import { useState } from "react";
+const initialboard = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+];
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
   const [activePlayer, setActivePlayer] = useState("X");
 
+  let gameBoard = [...initialboard.map((array) => [...array])];
+
+  for (const turn of gameTurns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+    gameBoard[row][col] = player;
+  }
+  let winner;
+
+  for (const combination of WINNING_COMBINATIONS) {
+    const firstSquareSymbol =
+      gameBoard[combination[0].row][combination[0].column];
+    const secondSquareSymbol =
+      gameBoard[combination[1].row][combination[1].column];
+    const thirdSquareSymbol =
+      gameBoard[combination[2].row][combination[2].column];
+
+    if (
+      firstSquareSymbol &&
+      firstSquareSymbol === secondSquareSymbol &&
+      firstSquareSymbol === thirdSquareSymbol
+    ) {
+      winner = firstSquareSymbol;
+    }
+  }
+  const IsDraw=gameTurns.length === 9 && !winner; 
   function setActivePlayerFunction(rowIndex, colIndex) {
     //to set active player
 
@@ -28,6 +61,9 @@ function App() {
       return updatedTurns;
     });
   }
+  function handleRestart() {
+    setGameTurns([]);
+  }
   return (
     <main>
       <div id="game-container">
@@ -43,9 +79,10 @@ function App() {
             isActive={activePlayer === "O"}
           ></Player>
         </ol>
+        { (winner || IsDraw) && <GameOver winner={winner} remach={handleRestart}></GameOver>}
         <GameBoard
           selectedPlayer={setActivePlayerFunction} //passing function setActivePlayerFunction to component
-          turns={gameTurns} //pass array of [{ square: { row: rowIndex, col: colIndex }, player: currentPlayer }, ...prviousTurns,]
+          gameBoard={gameBoard} //pass array of [{ square: { row: rowIndex, col: colIndex }, player: currentPlayer }, ...prviousTurns,]
         ></GameBoard>
       </div>
       <Log turns={gameTurns}></Log>
