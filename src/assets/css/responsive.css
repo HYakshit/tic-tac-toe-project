@@ -1,13 +1,42 @@
 @media(max-width:500px){
+    header img {
+        width: 6rem;
+        object-fit: contain;
+        margin-top: 1rem;
+        filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4));
+    }
+    .player-name {
+        font-size: 0.8rem;
+    }
+    .player-symbol {
+      margin: 0px;
+    }
     #game-board button{
         width: 4rem;
         height: 4rem;
+        font-size: 3rem;
         padding: 0.5rem;
+    }
+    #players {
+        margin: 0.5rem;
+        gap: 1rem;
     }
     #game-board ol {
         gap: 1.5rem;
     }
     #game-container{
         margin: 1rem;
+    }
+    #game-over p {
+        font-size: 1rem;
+        text-align: center;
+        color: #e1dec7;
+    }
+    #game-over h2 {
+        font-family: 'Caprasimo', cursive;
+        font-size: 2rem;
+        text-align: center;
+        color: #fcd256;
+        margin: 0;
     }
 }

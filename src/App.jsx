@@ -1,4 +1,4 @@
-import Player from "./components/player.jsx";
+import Player from "./components/Player.jsx";
 import GameBoard from "./components/GameBoard.jsx";
 import Log from "./components/Log.jsx";
 import GameOver from "./components/GameOver.jsx";
@@ -9,6 +9,16 @@ const initialboard = [
   [null, null, null],
   [null, null, null],
 ];
+
+function deriveActivePlayer(gameTurns) {
+  let currentPlayer = 'X';
+
+  if (gameTurns.length > 0 && gameTurns[0].player === 'X') {
+    currentPlayer = 'O';
+  }
+
+  return currentPlayer;
+}
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
   const [activePlayer, setActivePlayer] = useState("X");
@@ -20,6 +30,7 @@ function App() {
     const { row, col } = square;
     gameBoard[row][col] = player;
   }
+
   let winner;
 
   for (const combination of WINNING_COMBINATIONS) {
@@ -38,22 +49,18 @@ function App() {
       winner = firstSquareSymbol;
     }
   }
-  const IsDraw=gameTurns.length === 9 && !winner; 
+  const IsDraw = gameTurns.length === 9 && !winner;
   function setActivePlayerFunction(rowIndex, colIndex) {
     //to set active player
 
     setActivePlayer((currentActivePlayer) =>
       currentActivePlayer === "X" ? "O" : "X"
     );
-    console.log(activePlayer);
     // create game turns log
     setGameTurns((prviousTurns) => {
       // to update or create game log
 
-      let currentPlayer = "X"; // to change symbol as per previous player
-      if (prviousTurns.length > 0 && prviousTurns[0].player === "X") {
-        currentPlayer = "O";
-      }
+      let currentPlayer = deriveActivePlayer(prviousTurns);
       const updatedTurns = [
         { square: { row: rowIndex, col: colIndex }, player: currentPlayer },
         ...prviousTurns,
@@ -61,7 +68,7 @@ function App() {
       return updatedTurns;
     });
   }
-  function handleRestart() {
+  function handleRestart() {// set state to empty array
     setGameTurns([]);
   }
   return (
@@ -79,13 +86,15 @@ function App() {
             isActive={activePlayer === "O"}
           ></Player>
         </ol>
-        { (winner || IsDraw) && <GameOver winner={winner} remach={handleRestart}></GameOver>}
+        {(winner || IsDraw) && (
+          <GameOver winner={winner} remach={handleRestart}></GameOver>
+        )}
         <GameBoard
           selectedPlayer={setActivePlayerFunction} //passing function setActivePlayerFunction to component
           gameBoard={gameBoard} //pass array of [{ square: { row: rowIndex, col: colIndex }, player: currentPlayer }, ...prviousTurns,]
         ></GameBoard>
       </div>
-      <Log turns={gameTurns}></Log>
+      {/* <Log turns={gameTurns}></Log> */}
     </main>
   );
 }
