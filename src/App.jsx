@@ -11,10 +11,10 @@ const initialboard = [
 ];
 
 function deriveActivePlayer(gameTurns) {
-  let currentPlayer = 'X';
+  let currentPlayer = "X";
 
-  if (gameTurns.length > 0 && gameTurns[0].player === 'X') {
-    currentPlayer = 'O';
+  if (gameTurns.length > 0 && gameTurns[0].player === "X") {
+    currentPlayer = "O";
   }
 
   return currentPlayer;
@@ -68,7 +68,8 @@ function App() {
       return updatedTurns;
     });
   }
-  function handleRestart() {// set state to empty array
+  function handleRestart() {
+    // set state to empty array
     setGameTurns([]);
   }
   return (
@@ -94,7 +95,7 @@ function App() {
           gameBoard={gameBoard} //pass array of [{ square: { row: rowIndex, col: colIndex }, player: currentPlayer }, ...prviousTurns,]
         ></GameBoard>
       </div>
-      {/* <Log turns={gameTurns}></Log> */}
+      <Log turns={gameTurns}></Log>
     </main>
   );
 }
